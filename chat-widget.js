@@ -8,9 +8,9 @@
             --chat--color-background: #ffffff;
             --chat--color-font: #1f2937;
             --chat--color-accent: #10b981;  /* Color verde para detalles */
-            --chat--button-size: ${config.style?.buttonSize || '60px'};  /* Tamaño por defecto */
-            --chat--color-primary: ${config.style?.primaryColor || '#4f46e5'};  /* Color primario */
-            --chat--color-secondary: ${config.style?.secondaryColor || '#6366f1'};  /* Color secundario */
+            --chat--button-size: ${config.style?.buttonSize};  /* Tamaño por defecto */
+            --chat--color-primary: ${config.style?.primaryColor};  /* Color primario */
+            --chat--color-secondary: ${config.style?.secondaryColor};  /* Color secundario */
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
         }
 
@@ -273,8 +273,6 @@
             buttonSize: '60px',  // Tamaño del botón
             primaryColor: '#4f46e5',  // Color 1 del gradiente
             secondaryColor: '#6366f1'  // Color 2 del gradiente
-            primaryColor: '#4f46e5',
-            secondaryColor: '#6366f1',
             position: 'right',
             backgroundColor: '#ffffff',
             fontColor: '#1f2937'
@@ -282,12 +280,20 @@
     };
 
     // Merge user config with defaults
-    const config = window.ChatWidgetConfig ? 
+    //const config = window.ChatWidgetConfig ? 
         {
-            webhook: { ...defaultConfig.webhook, ...window.ChatWidgetConfig.webhook },
-            branding: { ...defaultConfig.branding, ...window.ChatWidgetConfig.branding },
-            style: { ...defaultConfig.style, ...window.ChatWidgetConfig.style }
-        } : defaultConfig;
+           // webhook: { ...defaultConfig.webhook, ...window.ChatWidgetConfig.webhook },
+           // branding: { ...defaultConfig.branding, ...window.ChatWidgetConfig.branding },
+            //style: { ...defaultConfig.style, ...window.ChatWidgetConfig.style }
+       // } : defaultConfig;
+    const config = (() => {
+        const userConfig = window.ChatWidgetConfig || {};
+        return {
+            webhook: { ...defaultConfig.webhook, ...(userConfig.webhook || {}) },
+            branding: { ...defaultConfig.branding, ...(userConfig.branding || {}) },
+            style: { ...defaultConfig.style, ...(userConfig.style || {}) }
+        };
+    })();
 
     // Prevent multiple initializations
     if (window.N8NChatWidgetInitialized) return;
