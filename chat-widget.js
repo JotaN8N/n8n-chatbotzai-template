@@ -270,7 +270,7 @@
             }
         },
         style: {
-            buttonSize: '60px',  // Tamaño del botón
+            buttonSize: '90px',  // Tamaño del botón
             primaryColor: '#4f46e5',  // Color 1 del gradiente
             secondaryColor: '#6366f1'  // Color 2 del gradiente
             position: 'right',
