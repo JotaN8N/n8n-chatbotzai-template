@@ -3,8 +3,6 @@
     // Create and inject styles
     const styles = `
         .n8n-chat-widget {
-            --chat--color-primary: #4f46e5;  /* Color principal azul */
-            --chat--color-secondary: #6366f1;  /* Color secundario azul */
             --chat--color-background: #ffffff;
             --chat--color-font: #1f2937;
             --chat--color-accent: #10b981;  /* Color verde para detalles */
@@ -215,31 +213,46 @@
 
         .n8n-chat-widget .chat-toggle {
             position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 60px;
-            height: 60px;
-            border-radius: 30px;
-            background: linear-gradient(135deg, var(--chat--color-primary) 0%, var(--chat--color-secondary) 100%);
-            color: white;
-            border: none;
-            cursor: pointer;
-            box-shadow: 0 4px 20px rgba(79, 70, 229, 0.3);
-            z-index: 999;
-            transition: transform 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+                bottom: var(--chat--button-bottom);
+                right: var(--chat--button-right);
+                width: var(--chat--button-size);
+                height: var(--chat--button-size);
+                border-radius: calc(var(--chat--button-size) / 2);
+                background: linear-gradient(
+                    135deg, 
+                    var(--chat--color-primary) 0%, 
+                    var(--chat--color-secondary) 100%
+                );
+                color: white;
+                border: none;
+                cursor: pointer;
+                box-shadow: 0 4px 20px rgba(79, 70, 229, 0.3);
+                z-index: 999;
+                transition: all 0.3s ease;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+        }
+
+        .n8n-chat-widget .chat-toggle.position-left {
+            right: auto;
+            left: var(--chat--button-right);
         }
 
         .n8n-chat-widget .chat-toggle:hover {
             transform: scale(1.05);
+            box-shadow: 0 6px 25px rgba(79, 70, 229, 0.4);
         }
 
         .n8n-chat-widget .chat-toggle svg {
-            width: 24px;
-            height: 24px;
+            width: calc(var(--chat--button-size) * 0.4);
+            height: calc(var(--chat--button-size) * 0.4);
             fill: currentColor;
+            transition: transform 0.3s ease;
+        }
+
+        .n8n-chat-widget .chat-toggle:hover svg {
+            transform: scale(1.1);
         }
     `;
 
@@ -270,10 +283,11 @@
             }
         },
         style: {
-            buttonSize: '90px',  // Tamaño del botón
-            primaryColor: '#4f46e5',  // Color 1 del gradiente
-            secondaryColor: '#6366f1'  // Color 2 del gradiente
-            position: 'right',
+            buttonSize: '60px',
+            buttonBottom: '20px',
+            buttonRight: '20px',
+            primaryColor: '#4f46e5',
+            secondaryColor: '#6366f1',
             backgroundColor: '#ffffff',
             fontColor: '#1f2937'
         }
@@ -346,12 +360,21 @@
     
     chatContainer.innerHTML = welcomeScreenHTML + chatInterfaceHTML;
     
+    // Al crear el botón flotante
     const toggleButton = document.createElement('button');
+    toggleButton.className = `chat-toggle${config.style.position === 'left' ? ' position-left' : ''}`;
+    toggleButton.innerHTML = `
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M12 2C6.477 2 2 6.477 2 12c0 1.821.487 3.53 1.338 5L2.5 21.5l4.5-.838A9.955 9.955 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18c-1.476 0-2.886-.313-4.156-.878l-3.156.586.586-3.156A7.962 7.962 0 014 12c0-4.411 3.589-8 8-8s8 3.589 8 8-3.589 8-8 8z"/>
+        </svg>
+    `;
+            
+            /* const toggleButton = document.createElement('button');
     toggleButton.className = 'chat-toggle';
     toggleButton.innerHTML = `
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
             <path d="M12 2C6.477 2 2 6.477 2 12c0 1.821.487 3.53 1.338 5L2.5 21.5l4.5-.838A9.955 9.955 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18c-1.476 0-2.886-.313-4.156-.878l-3.156.586.586-3.156A7.962 7.962 0 014 12c0-4.411 3.589-8 8-8s8 3.589 8 8-3.589 8-8 8z"/>
-        </svg>`;
+        </svg>`; */
     
     widgetContainer.appendChild(chatContainer);
     widgetContainer.appendChild(toggleButton);
