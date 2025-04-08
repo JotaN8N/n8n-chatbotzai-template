@@ -8,6 +8,9 @@
             --chat--color-background: #ffffff;
             --chat--color-font: #1f2937;
             --chat--color-accent: #10b981;  /* Color verde para detalles */
+            --chat--button-size: ${config.style?.buttonSize || '60px'};  /* Tamaño por defecto */
+            --chat--color-primary: ${config.style?.primaryColor || '#4f46e5'};  /* Color primario */
+            --chat--color-secondary: ${config.style?.secondaryColor || '#6366f1'};  /* Color secundario */
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
         }
 
@@ -267,6 +270,9 @@
             }
         },
         style: {
+            buttonSize: '60px',  // Tamaño del botón
+            primaryColor: '#4f46e5',  // Color 1 del gradiente
+            secondaryColor: '#6366f1'  // Color 2 del gradiente
             primaryColor: '#4f46e5',
             secondaryColor: '#6366f1',
             position: 'right',
